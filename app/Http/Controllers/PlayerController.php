@@ -156,8 +156,13 @@ class PlayerController extends Controller
                 FROM games as G right join players as P on (G.player_id = P.id)
                 GROUP BY P.id, P.name
                 ORDER BY Promedio ASC";
-        $player = DB::select($sql)[0];
-        return response()->json(['player' => $player], 200);
+        $player = DB::select($sql);
+        if ($player) {
+            $retPlayer = $player[0];
+        } else {
+            $retPlayer = null;
+        }        
+        return response()->json(['player' => $retPlayer], 200);
     }
 
     /* Retorna el jugador amb pitjor percentatge d’èxit. */
@@ -192,8 +197,13 @@ class PlayerController extends Controller
                   FROM games as G right join players as P on (G.player_id = P.id)
                   GROUP BY P.id, P.name
                   ORDER BY Promedio DESC";
-        $player = DB::select($sql)[0];
-        return response()->json(['player' => $player], 200);
+        $player = DB::select($sql);
+        if ($player) {
+            $retPlayer = $player[0];
+        } else {
+            $retPlayer = null;
+        }
+        return response()->json(['player' => $retPlayer], 200);
     }
 
     public function gameShoot(Request $request, $id) {
